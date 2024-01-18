@@ -1,0 +1,6 @@
+qsub chromosomes.sge
+
+
+#Esto se corre dentro del directorio donde guardaremos los archivos de cada gen listo para la anotación sacbe
+chmod +x sacbe_padded.py
+qsub sacbe_annotation.sge
