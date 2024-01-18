@@ -1,0 +1,75 @@
+#!/bin/bash
+# Use current working directory
+#$ -cwd
+#
+# Join stdout and stderr
+#$ -j y
+#
+# Run job through bash shell
+#$ -S /bin/bash
+#
+#You can edit the script since this line
+#
+# Your job name
+#$ -N  chromosomes_job
+#$ -pe openmp 8
+#$ -e chromosomes.err
+#$ -o chromosomes.out
+# Send an email after the job has finished
+#$ -m e
+#$ -M aldarchez26@gmail.com
+#!/bin/bash
+module load bcftools/1.10.2
+# Directorio que contiene los archivos VCF
+directorio="/mnt/Timina/cgonzaga/resources/MCPS/CHRS_June2022/"
+
+# Bucle para procesar cromosomas del 1 al 22
+for num in {1..22}; do
+    archivo="$directorio"chr"${num}".freq.vcf
+    if [ -e "$archivo" ]; then
+        chrom=$(basename "$archivo" | sed -n 's/chr\([0-9XY]\+\).freq.vcf/\1/p')
+        #obtenemos las columnas que necesitamos del vcf con bcftools
+        bcftools query -f '%CHROM\t%POS\t%REF\t%ALT\t%INFO[%SOURCE]\t%ID\n' "$archivo" > "${chrom}.vcf"
+        #quitamos los ; presentes en el apartado INFO del vcf y los cambiamos por tabs (esto para obtener AF,AC y AN)
+        sed -i 's/;/\t/g' "${chrom}.vcf"
+        #Ya que todo esta separado por tabs tomamos las columnas deseadas
+        awk '{print $1,$2,$3,$4,$5,$6,$7,$8,$18}' "${chrom}.vcf" > "${chrom}.tsv"
+        #agregamos el encabezado a nuestro archivo destino
+        echo -e "CHR\tPOS\tREF\tALT\tSOURCE\tAC_RAW\tAN_RAW\tAF_RAW\tVCF_INFO" > "${chrom}_parsed.tsv"
+        #quitamos las palabras repetidas del aprtado INFO (ya que esta en el encabezado de la columna) y lo agregamos a nuestro archivo destino
+        sed 's/SOURCE=//g' "${chrom}.tsv" | sed 's/AC_RAW=//g'| sed 's/AN_RAW=//g'|sed 's/AF_RAW=//g'>> "${chrom}_parsed.tsv"
+        #por toda la manipulacion se cambian los tabs por espacios, por lo que arreglamos ese problema
+        sed -i 's/ /\t/g' "${chrom}_parsed.tsv"
+        #eliminamos archivos intermedios
+        rm "${chrom}.vcf"
+        rm "${chrom}.tsv"
+
+    fi
+done
+
+# Procesar cromosomas X e Y por separado
+for chrom in X Y; do
+    archivo="$directorio"chr"${chrom}".freq.vcf
+    if [ -e "$archivo" ]; then
+        chrom=$(basename "$archivo" | sed -n 's/chr\([0-9XY]\+\).freq.vcf/\1/p')
+        #obtenemos las columnas que necesitamos del vcf con bcftools
+        bcftools query -f '%CHROM\t%POS\t%REF\t%ALT\t%INFO[%SOURCE]\t%ID\n' "$archivo" > "${chrom}.vcf"
+        #quitamos los ; presentes en el apartado INFO del vcf y los cambiamos por tabs (esto para obtener AF,AC y AN)
+        sed -i 's/;/\t/g' "${chrom}.vcf"
+        #Ya que todo esta separado por tabs tomamos las columnas deseadas
+        awk '{print $1,$2,$3,$4,$5,$6,$7,$8,$18}' "${chrom}.vcf" > "${chrom}.tsv"
+        #agregamos el encabezado a nuestro archivo destino
+        echo -e "CHR\tPOS\tREF\tALT\tSOURCE\tAC_RAW\tAN_RAW\tAF_RAW\tVCF_INFO" > "${chrom}_parsed.tsv"
+        #quitamos las palabras repetidas del aprtado INFO (ya que esta en el encabezado de la columna) y lo agregamos a nuestro archivo destino
+        sed 's/SOURCE=//g' "${chrom}.tsv" | sed 's/AC_RAW=//g'| sed 's/AN_RAW=//g'|sed 's/AF_RAW=//g'>> "${chrom}_parsed.tsv"
+        #por toda la manipulacion se cambian los tabs por espacios, por lo que arreglamos ese problema
+        sed -i 's/ /\t/g' "${chrom}_parsed.tsv"
+        #eliminamos archivos intermedios
+        rm "${chrom}.vcf"
+        rm "${chrom}.tsv"
+    fi
+done
+
+#Agregamos la columna Type (tipo de mutacion) a todos los archivos parseados por cromosoma--------------------
+module load python38/3.8.3 #cargamos el modulo de pyhton
+python3 sacbe_type.py #corremos el script escrito en python para agregar la columna Type
