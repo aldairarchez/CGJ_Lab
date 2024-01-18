@@ -1,0 +1,62 @@
+#!/bin/bash
+# Use current working directory
+#$ -cwd
+#
+# Join stdout and stderr
+#$ -j y
+#
+# Run job through bash shell
+#$ -S /bin/bash
+#
+#You can edit the script since this line
+#
+# Your job name
+#$ -N  sacbe_job
+#$ -pe openmp 8
+#$ -e sacbe.err
+#$ -o sacbe.out
+# Send an email after the job has finished
+#$ -m e
+#$ -M aldarchez26@gmail.com
+#!/bin/bash
+# Nombre del archivo
+archivo="Genes.csv"
+
+# Itera a través de cada línea en el archivo (omitir la primera línea con sed)
+tail -n +2 "$archivo" | while IFS=',' read -r GENE CHR START END; do # el while es usado para generar cada archivo vcf a utilizar
+    chrom=$(echo "$CHR" | tr -cd '[:alnum:]:')
+    #intervalo deseado
+    inicio=$(echo "$START" | tr -cd '[:alnum:]:')
+    fin=$(echo "$END" | tr -cd '[:alnum:]:')
+    echo "$inicio"
+    echo "$fin"
+
+    # Nombre del archivo de entrada y salida
+    archivo_entrada=/mnt/Timina/cgonzaga/marciniega/MCPS_22/df_"$chrom"_type.tsv #archivo con las columnas que usaremos del vcf con una adicional que es la de Type
+    archivo_salida="$GENE"_positions.tsv #archivo donde guardademos las posiciones del gen
+    echo -e "CHR\tPOS\tREF\tALT\tSOURCE\tAC_RAW\tAN_RAW\tAF_RAW\tVCF_INFO\tType" > "$GENE"_positions.tsv #mismo encabezado que el df con el Type
+
+    # Itera a través de las líneas del archivo de entrada (df_"chrom"_type.tsv)
+    while IFS=$'\t' read -r CHR POS REF ALT SOURCE AC_RAW AN_RAW AF_RAW VCF_INFO Type; do #declaramos las columnas del archivo
+        # Verifica si POS es un número y si está dentro del intervalo
+        if [[ $POS =~ ^[0-9]+$ ]] && ((POS >= inicio && POS <= fin)); then
+            echo "$CHR $POS $REF $ALT $SOURCE $AC_RAW $AN_RAW $AF_RAW $VCF_INFO $Type" >> "$archivo_salida" #agregamos la linea que cumple estar dentro del intervalo de posisicones del gen
+        fi
+    done < "$archivo_entrada"
+done
+#algunos tabs se pierden por lo que cambiamos cuaqluier espacio por un tab
+sed -i 's/ /\t/g' *_positions.tsv
+
+#imprimimos los todos los nombres de los archivos generados y los guardamos en un archivo de texto
+ls *_positions.tsv > archives_positions.txt
+#definimos nuestra lista
+archive_list=($(cat archives_positions.txt))
+#recorremos la lista archivo por archivo para ejecutar el codigo padded
+for archivo in "${archive_list[@]}"; do
+  #cargamos modulo
+  archive="$archivo"
+  #cargamos el modulo de python
+  module load python38/3.8.3
+  #correr el codigo por cada archivo
+  python3 sacbe_padded.py "$archive"
+done < archives_positions.txt
