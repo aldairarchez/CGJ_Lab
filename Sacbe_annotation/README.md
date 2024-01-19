@@ -29,5 +29,5 @@ sacbe_annotation.sge #generates the final archives
 
 [![sacbe_annotation.sge](https://img.shields.io/badge/sacbe_annotation.sge-blue)](https://github.com/aldairarchez/CGJ_Lab/blob/main/Sacbe_annotation/Codes/sacbe_annotation.sge)
 
-### Notes:
-line 35 of sacbe_annotation.sge the directory should be changed to the directory where the parsed generated archives from MCPS have been generated
+#### Notes:
+* **line 35 of sacbe_annotation.sge:** the directory should be changed to the directory where the parsed generated archives from MCPS have been generated
