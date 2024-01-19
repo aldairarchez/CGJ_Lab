@@ -6,11 +6,13 @@ This pipeline provides an archive ready to be annotated in Sacbe, here is an exa
 
 # Archives you need to create 
 ## Directory where you will save the parsed archives obtained from the vcf from MCPS (*general* archives to different gene lists)
+obtains the information that we need from the vcf from MCPS
+
 [![chromosomes.sge](https://img.shields.io/badge/chromosomes.sge-blue)](https://github.com/aldairarchez/CGJ_Lab/blob/main/Sacbe_annotation/Codes/chromosomes.sge)
 
-[![Texto del ]()]
-chromosomes.sge https://img.shields.io/badge/Visitar-MiGitHub-brightgr #obtains the information that we need from the vcf from MCPS
-sacbe_type.py #agregates a column "Type" to know if a SNP is a deletion or insertion
+agregates a column "Type" to know if a SNP is a deletion or insertion
+
+[![sacbe_type.py](https://img.shields.io/badge/sacbe_type.py-blue)](https://github.com/aldairarchez/CGJ_Lab/blob/main/Sacbe_annotation/Codes/sacbe_type.py)
 
 
 ## Directory where the finals archives will be save (*individual* gene list)
@@ -19,6 +21,10 @@ sacbe_type.py #agregates a column "Type" to know if a SNP is a deletion or inser
 |-------|
 | CALM1,14,90397029,90408268 |
 
-sacbe_padded.py #add the start and end position of each variant
+add the start and end position of each variant
+
+[![sacbe_padded.py](https://img.shields.io/badge/sacbe_padded.py-orange)](https://github.com/aldairarchez/CGJ_Lab/blob/main/Sacbe_annotation/Codes/sacbe_padded.py)
 
 sacbe_annotation.sge #generates the final archives
+
+[![sacbe_annotation.sge](https://img.shields.io/badge/sacbe_annotation.sge-orange)](https://github.com/aldairarchez/CGJ_Lab/blob/main/Sacbe_annotation/Codes/sacbe_annotation.sge)
