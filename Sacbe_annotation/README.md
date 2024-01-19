@@ -6,7 +6,10 @@ This pipeline provides an archive ready to be annotated in Sacbe, here is an exa
 
 # Archives you need to create 
 ## Directory where you will save the parsed archives obtained from the vcf from MCPS (*general* archives to different gene lists)
-chromosomes.sge #obtains the information that we need from the vcf from MCPS
+[![chromosomes.sge](https://img.shields.io/badge/chromosomes.sge-blue)](https://github.com/aldairarchez/CGJ_Lab/blob/main/Sacbe_annotation/Codes/chromosomes.sge)
+
+[![Texto del ]()]
+chromosomes.sge https://img.shields.io/badge/Visitar-MiGitHub-brightgr #obtains the information that we need from the vcf from MCPS
 sacbe_type.py #agregates a column "Type" to know if a SNP is a deletion or insertion
 
 
