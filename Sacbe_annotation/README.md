@@ -17,6 +17,7 @@ Aggregates a column "Type" to know if a SNP is a deletion or insertion
 
 ## Directory where the final archives will be saved (*individual* gene list)
 ### In this directory, we must have an archive called "Genes.csv" in the following format:
+The positions of the gene were taken from [UCSC Genome browser](https://genome.ucsc.edu/)
 | GENE,CHR,START,END |
 |-------|
 | CALM1,14,90397029,90408268 |
