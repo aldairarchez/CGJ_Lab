@@ -50,3 +50,5 @@ for gene in "${gene_list[@]}"; do
   rm "$gene".vcf
   rm columna.tsv
 done < GENES.txt
+rm archivo_vacio.tsv
+rm temporal.tsv
