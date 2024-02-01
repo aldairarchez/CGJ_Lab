@@ -7,4 +7,16 @@ The file contains 78 columns separated by tabs, here is an example:
 |-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|
 |chr1|226881956|226881956|C|T|.|WES|.|11|276400|3.98e-05|6944723618.09045|.|.|1:226881956:C:T|1q42.13|nonsynonymous SNV|PSEN2|presenilin 2|NM_000447|exon4|c.C49T|p.R17W|PSEN2:NM_000447:exon4:c.C49T:p.R17W,PSEN2:NM_012486:exon4:c.C49T:p.R17W,|na|na|na|3.297e-05|2.386e-05|0.0002|1.314e-05|0.416|neutral|-0.444|0.036|0.993|0.980|0.39125|14.596|-5.39|deleterious|0.868|deleterious|1.009|deleterious|0.980|deleterious|0.000|deleterious|0.051|tolerated|-2.43|neutral|1.0|probably_damaging|0.906|possibly_damaging|1.000|disease_causing|0.975|nonfunctional:L|0.776|0.999|6.780|32|0.707|0|33.056|PSEN2(600759):Alzheimer disease-4, 606889 (3); Cardiomyopathy, dilated, 1V, 613697 (3)|Uncertain_significance|189386|not_provided|2.90503e-05|11|0|https://www.ncbi.nlm.nih.gov/gene/5664|http://www.gtexportal.org/home/gene/PSEN2|https://www.ncbi.nlm.nih.gov/clinvar/variation/189386|
 
+### Descarga de anotaciones de clinvar
+<span style="color:blue; font-weight:bold;">last updated 21/01/24</span>
+
+<span style="color:red; font-weight:bold;">Texto en negrita y rojo</span>
+
+Obtaining the download link (**last updated 21/01/24**):
++ Home page > Downloads/FTP site > vcf_GRCh38 > clinvar.vcf.gz
+```bash
+wget https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz
+gunzip clinvar.vcf.gz #uncompressing the file
+```
+
  
