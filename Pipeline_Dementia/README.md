@@ -41,4 +41,8 @@ AF_EXAC
 AF_TGP
 MC
 ```
- 
+### Running of [clinvar.sh](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia/Codes/clinvar.sh) code to obtain individual clinvar files per gene
+```bash
+chmod +x clinvar.sh
+./clinvar.sh
+```
