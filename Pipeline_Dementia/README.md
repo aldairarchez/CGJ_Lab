@@ -26,7 +26,7 @@ PSEN2
 MAPT
 APP
 ```
-+ List of columns to filter out from the clinvar.vcf file
++ List of columns to filter out from the clinvar.vcf file (besides of the first column:CPRA)
 
 **columns.txt**
 ```bash
@@ -46,3 +46,16 @@ MC
 chmod +x clinvar.sh
 ./clinvar.sh
 ```
+## Filtering of MCPS vcfs
++ directory of the MCPS files: /mnt/Timina/cgonzaga/resources/MCPS/CHRS_June2022
+
+The following codes will parsed the columns needed from the vcf, add headers and filter by annotations if the genes are **loss** or **gain of function**
+
+|Loss of function genes|Annotation|
+|-|-|
+|PSEN1 <br> PSEN2<br>GRN|frameshift<br>start_lost<br>stop_gained<br>stop_lost<br>splice_donor<br>splice_acceptor<br>splice_region|
+
+|Gain of function genes|Annotation|
+|-|-|
+|MAPT<br>APP|missense|
+
