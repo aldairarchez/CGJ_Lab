@@ -19,9 +19,9 @@ primero deberemos crear un directorio a donde se enviará este nuevo archivo, aq
 ```bash
 mkdir Sacbe
 # Copiar el contenido del primer archivo sin cambios (esto para mantener el encabezado)
-cat $(ls *_sacbe.csv | head -n 1) > ../Sacbe/Tania_sacbe.csv #aqui se pone la direccion del directorio Sacbe
+cat $(ls *_sacbe.csv | head -n 1) > /mnt/Timina/cgonzaga/marciniega/MCPS_22/Sacbe/Tania_sacbe.csv #aqui se pone la direccion del directorio Sacbe
 # Concatenar el contenido de los archivos restantes omitiendo el encabezado
 for file in $(ls *_sacbe.csv | tail -n +2); do
-    tail -n +2 $file >> ../Sacbe/Tania_sacbe.csv
+    tail -n +2 $file >> /mnt/Timina/cgonzaga/marciniega/MCPS_22/Sacbe/Tania_sacbe.csv
 done
 ```
