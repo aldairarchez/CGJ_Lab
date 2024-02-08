@@ -44,7 +44,7 @@ for gene in "${gene_list[@]}"; do
   #vaciamos el archivo para sobreescribirlo
   cp archivo_vacio.tsv "$gene"_clinvar.tsv
   ### agregar nombre a las columnas
-  echo -e "CPRA\tGENEINFO\tRS_ID\tCLNDN\tCLNHGVS\tCLNSIG\tCLNVC\tAF_ESP\tAF_EXAC\tAF_TGP\tMC" | cat - "$gene"_Clinvar.tsv >         "$gene"_clinvar.tsv
+  echo -e "CPRA\tGENEINFO\tRS_ID\tCLNDN_2\tCLNHGVS\tCLNSIG_2\tCLNVC\tAF_ESP\tAF_EXAC\tAF_TGP\tMC" | cat - "$gene"_Clinvar.tsv >         "$gene"_clinvar.tsv
   # eliminar el archivo sin encabezado
   rm "$gene"_Clinvar.tsv
   rm "$gene".vcf
