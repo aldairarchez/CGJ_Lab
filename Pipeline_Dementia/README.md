@@ -66,3 +66,10 @@ cp /mnt/Timina/cgonzaga/Sandbox/Annotations_Sacbe/Marlon_sacbe.varfile.ex.EDITED
 sed -i 's/,/\t/g' Marlon_sacbe.varfile.ex.EDITED
 
 ```
+# creating GOF and LOF gene lists
+GOF_GENES.txt
+### create filter_GOF.py and MCPS_GOF.sh
+```bash
+chmod +x filter_GOF.py
+./MCPS_GOF.sh
+```
