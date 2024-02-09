@@ -10,7 +10,7 @@ data = pd.read_csv('/mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/'+
 pattern = r"nonsynonymous SNV"
 
 # Crear una nueva columna 'GOF' y llenarla con 'YES' o 'NO' según el filtro
-data['GOF'] = data['Annotations'].str.contains(pattern, regex=True).map({True: 'YES', False: 'NO'})
+data['GOF'] = data['ANNOTATION'].str.contains(pattern, regex=True).map({True: 'YES', False: 'NO'})
 
 # Guardar los datos en un nuevo archivo
 data.to_csv(f'{gene}_final.tsv', sep='\t', index=False)
