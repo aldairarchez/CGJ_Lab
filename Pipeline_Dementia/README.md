@@ -68,9 +68,10 @@ sed -i 's/,/\t/g' Marlon_sacbe.varfile.ex.EDITED
 ```
 # creating GOF and LOF gene lists
 GOF_GENES.txt
-### create filter_GOF.py and MCPS_GOF.sh
+### create filter_GOF.py and MCPS_GOF.sh and filter_clinvar.py
 ```bash
 chmod +x filter_GOF.py
 chmod +x MCPS_GOF.sh
+chmod +x filter_clinvar.py
 ./MCPS_GOF.sh
 ```
