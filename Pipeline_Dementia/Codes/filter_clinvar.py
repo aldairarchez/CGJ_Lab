@@ -13,6 +13,5 @@ pattern = r"(Pathogenic|Likely_pathogenic)"
 filtered_data = data[data['CLNSIG_2'].str.extract(pattern, expand=False).notna()] #CLNSIG_2 es la columna mas actualizada de la significancia en clinvar
 
 # Guardar los datos filtrados en un nuevo archivo
-filtered_data.to_csv(f'{gene}_inclinvar.tsv', sep='\t', index=False)
-filter_clinvar.py 
+filtered_data.to_csv(f'{gene}_inclinvar.tsv', sep='\t', index=False) 
 
