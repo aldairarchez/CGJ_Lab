@@ -71,5 +71,6 @@ GOF_GENES.txt
 ### create filter_GOF.py and MCPS_GOF.sh
 ```bash
 chmod +x filter_GOF.py
+chmod +x MCPS_GOF.sh
 ./MCPS_GOF.sh
 ```
