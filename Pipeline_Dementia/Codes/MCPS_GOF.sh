@@ -1,4 +1,8 @@
 #!/bin/bash
+#abrir el archivo GENES.txt
+gene_list=($(cat GOF_GENES.txt))
+
+for gene in "${gene_list[@]}"; do
 #INICIA SCRIPT PARA UNIR LOS ARCHIVOS DE MCPS y clinvar cuando hay coincidencias
   # unimos encabezados para el archivo inclinvar
   encabezado1=$(sed -n 1p "$gene"_MCPS1.tsv)
