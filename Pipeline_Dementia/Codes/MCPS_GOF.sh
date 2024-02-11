@@ -2,36 +2,38 @@
 #abrir el archivo GENES.txt
 gene_list=($(cat GOF_GENES.txt))
 
+
 for gene in "${gene_list[@]}"; do
 #INICIA SCRIPT PARA UNIR LOS ARCHIVOS DE MCPS y clinvar cuando hay coincidencias
+  #Definimos los archivos a utilizar
+  archive_clinvar=/mnt/Timina/cgonzaga/marciniega/Dementia_2024/"$gene"_clinvar.csv
+  archive_sacbe=/mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/"$gene"_sacbe.csv
   # unimos encabezados para el archivo inclinvar
-  encabezado1=$(sed -n 1p /mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/"$gene"_sacbe.tsv)
-  encabezado2=$(sed -n 1p /mnt/Timina/cgonzaga/marciniega/Dementia_2024/"$gene"_clinvar.tsv)
-  echo -e "$encabezado1\t$encabezado2" > /mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/"$gene"_inclinvar1.tsv
+  encabezado1=$(sed -n 1p "$archive_sacbe")
+  encabezado2=$(sed -n 1p "$archive_clinvar")
+  echo -e "$encabezado1,$encabezado2" > /mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/"$gene"_inclinvar1.csv
   
-
-  archive=/mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/"$gene"_sacbe.tsv
   # Omite el encabezado del archivo para inciar la busqueda
-  tail -n +2 "$archive" | while IFS= read -r linea
+  tail -n +2 "$archive_sacbe" | while IFS= read -r linea
   do
      #obtenemos el CPRA del archivo de MCPS, linea por linea
-     CPRA=$(awk '{print $15}' <<< "$linea")
+     CPRA=$(awk -F',' '{print $15}' <<< "$linea")
      #buscamos el CPRA de MCPS en el archivo de clinvar del gen
-     coincide=$(grep "$CPRA" /mnt/Timina/cgonzaga/marciniega/Dementia_2024/"$gene"_clinvar.tsv)
+     coincide=$(grep "$CPRA" "$archive_clinvar")
      #cuando no hay coincidencias los guardamos la linea en el archivo notclinvar
      if [ -n "$coincide" ]; then
         #obtenemos el numero de linea del archivo de clinvar en donde hubo coincidencia
-        line_matching=$(grep -n "$CPRA" /mnt/Timina/cgonzaga/marciniega/Dementia_2024/"$gene"_clinvar.tsv | cut -d: -f1)
+        line_matching=$(grep -n "$CPRA" "$archive_sacbe" | cut -d: -f1)
         #guardamos la linea completa en una variable
-        line_clinvar=$(sed -n "$line_matching"p /mnt/Timina/cgonzaga/marciniega/Dementia_2024/"$gene"_clinvar.tsv)
+        line_clinvar=$(sed -n "$line_matching"p "$archive_clinvar")
         # unimos la linea actual de MCPS (dada por el while) y la linea que coincide de clinvar
-        echo -e "$linea"'\t'"$line_clinvar" >> /mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/"$gene"_inclinvar1.tsv
+        echo -e "$linea"'\t'"$line_clinvar" >> /mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/"$gene"_inclinvar1.csv
      #cuando hay coincidencia lo unimos con la linea del archivo en clinvar que coincide el CPRA
      fi
-  done < <(tail -n +2 "$archive") #esta linea hace que el while comience a correr omitiendo el encabezado
+  done < <(tail -n +2 "$archive_sacbe") #esta linea hace que el while comience a correr omitiendo el encabezado
   
   # es necesario quitar saltos de linea inesperados
-  sed -i 's/\r//g' /mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/"$gene"_inclinvar1.tsv
+  sed -i 's/\r//g' /mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/"$gene"_inclinvar1.csv
   
   #COMENZAMOS FILTRADO TANTO DE ANOTACIONES COMO PARA SABER SI ERAN PATOGENICAS/PROBABLEMENTE PATOGENICAS
   #cargamos el modulo de python
@@ -43,6 +45,6 @@ for gene in "${gene_list[@]}"; do
   python3 filter_clinvar.py "$gene"
 
   #eliminamos archivo sin filtrado de CLNSIG
-  rm "$gene"_inclinvar1.tsv
+  rm "$gene"_inclinvar1.csv
   
 done < GOF_GENES.txt
