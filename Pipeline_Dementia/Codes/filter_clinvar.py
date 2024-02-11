@@ -5,7 +5,7 @@ import pandas as pd
 gene = sys.argv[1]
 
 # Cargar el archivo CSV en un DataFrame
-data = pd.read_csv('/mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/'+f'{gene}_final.tsv', sep='\t', encoding='utf-8')
+data = pd.read_csv('/mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/'+f'{gene}_GOF.csv', sep=',', encoding='utf-8')
 
 pattern = r"(Pathogenic|Likely_pathogenic)"
 
