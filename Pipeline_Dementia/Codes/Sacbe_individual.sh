@@ -14,4 +14,5 @@ tail -n +2 "$archivo" | while IFS=',' read -r GENE CHR START END; do
     #Obtaning the header
     awk NR==1 Marlon_sacbe.varfile.ex.EDITED > "$archivo_salida"
     awk '$18 == "$GENE"' "$archivo_entrada" >> "$archivo_salida"
+done
 
