@@ -42,16 +42,15 @@ for gene in "${gene_list[@]}"; do
   #unir primeras 4 columnas con ":" iintermedios para crear nuestro CPRA
   awk '{print $1":"$2":"$3":"$4"\t"$5"\t"$6"\t"$7"\t"$8"\t"$9"\t"$10"\t"$11"\t"$12"\t"$13"\t"$14}' "$gene"_clinvar.tsv > "$gene"_Clinvar.tsv
   #vaciamos el archivo para sobreescribirlo
-  cp archivo_vacio.tsv "$gene"_clinvar.tsv
+  cp archivo_vacio.tsv "$gene"_clinvar.csv
   ### agregar nombre a las columnas
-  echo -e "CPRA\tGENEINFO\tRS_ID\tCLNDN_2\tCLNHGVS\tCLNSIG_2\tCLNVC\tAF_ESP\tAF_EXAC\tAF_TGP\tMC" | cat - "$gene"_Clinvar.tsv >         "$gene"_clinvar.tsv
+  echo -e "CPRA\tGENEINFO\tRS_ID\tCLNDN_2\tCLNHGVS\tCLNSIG_2\tCLNVC\tAF_ESP\tAF_EXAC\tAF_TGP\tMC" | cat - "$gene"_Clinvar.tsv > "$gene"_clinvar.csv
   # eliminar el archivo sin encabezado
   rm "$gene"_Clinvar.tsv
   rm "$gene".vcf
   rm columna.tsv
   #lo pasamos a un archivo csv
-  sed -i 's/\t/,/g' "$gene"_clinvar.tsv > "$gene"_clinvar.csv
-  rm "$gene"_clinvar.tsv
+  sed -i 's/\t/,/g' "$gene"_clinvar.csv
 done < GENES.txt
 rm archivo_vacio.tsv
 rm temporal.tsv
