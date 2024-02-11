@@ -13,6 +13,6 @@ tail -n +2 "$archivo" | while IFS=',' read -r GENE CHR START END; do
     archivo_salida="/mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/${GENE}_sacbe.csv"
     #Obtaning the header
     awk NR==1 Marlon_sacbe.varfile.ex.EDITED > "$archivo_salida"
-    awk '$18 == "$GENE"' "$archivo_entrada" >> "$archivo_salida"
+    awk -F',' '$18 == "$GENE"' Marlon_sacbe.varfile.ex.EDITED
 done
 
