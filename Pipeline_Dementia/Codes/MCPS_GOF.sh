@@ -23,7 +23,7 @@ for gene in "${gene_list[@]}"; do
      #cuando no hay coincidencias los guardamos la linea en el archivo notclinvar
      if [ -n "$coincide" ]; then
         #obtenemos el numero de linea del archivo de clinvar en donde hubo coincidencia
-        line_matching=$(grep -n "$CPRA" "$archive_sacbe" | cut -d: -f1)
+        line_matching=$(grep -n "$CPRA" "$archive_clinvar" | cut -d: -f1)
         #guardamos la linea completa en una variable
         line_clinvar=$(sed -n "$line_matching"p "$archive_clinvar")
         # unimos la linea actual de MCPS (dada por el while) y la linea que coincide de clinvar
