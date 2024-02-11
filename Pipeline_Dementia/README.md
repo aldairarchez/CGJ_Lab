@@ -62,8 +62,6 @@ The following codes will parsed the columns needed from the vcf, add headers and
 ### creating indiidual archives per gene with the sacbe annotaion (pipeline Claudia)
 ```bash
 cp /mnt/Timina/cgonzaga/Sandbox/Annotations_Sacbe/Marlon_sacbe.varfile.ex.EDITED /mnt/Timina/cgonzaga/marciniega/Dementia_2024
-#change comas for tabs
-sed -i 's/,/\t/g' Marlon_sacbe.varfile.ex.EDITED
 chmod +x Sacbe_individual.sh
 ./Sacbe_individual.sh
 ```
