@@ -60,6 +60,16 @@ The following codes will parsed the columns needed from the vcf, add headers and
 |MAPT<br>APP|missense|
 
 ### creating indiidual archives per gene with the sacbe annotaion (pipeline Claudia)
+first you need to create an achiv with the coordinates obtained from UCSC Browser
+```bash
+GENE,CHR,START,END
+GRN,17,44345302,44353106
+PSEN1,14,73136507,73223691
+PSEN2,1,226870616,226896098
+MAPT,17,45894554,46028334
+APP,21,25880550,2617077
+```
+Creating the file Sacbe_individual.sh and running the following codes
 ```bash
 cp /mnt/Timina/cgonzaga/Sandbox/Annotations_Sacbe/Marlon_sacbe.varfile.ex.EDITED /mnt/Timina/cgonzaga/marciniega/Dementia_2024
 chmod +x Sacbe_individual.sh
