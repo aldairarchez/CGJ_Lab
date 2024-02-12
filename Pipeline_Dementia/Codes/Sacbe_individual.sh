@@ -14,6 +14,7 @@ tail -n +2 "$archivo" | while IFS=',' read -r GENE CHR START END; do
     archivo_salida="/mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/${GENE}_sacbe.csv"
 
     # Filtrar y agregar líneas al archivo de salida
-    awk -F',' -v GENE="$GENE" '$18 == GENE' "$archivo_entrada" >> "$archivo_salida"
+    echo "$encabezado" > "$archivo_salida"
+    awk -F',' -v GENE="$GENE" '$18 ~ GENE' "$archivo_entrada" >> "$archivo_salida"
 done
 
