@@ -27,7 +27,7 @@ for gene in "${gene_list[@]}"; do
         #guardamos la linea completa en una variable
         line_clinvar=$(sed -n "$line_matching"p "$archive_clinvar")
         # unimos la linea actual de MCPS (dada por el while) y la linea que coincide de clinvar
-        echo -e "$linea"'\t'"$line_clinvar" >> /mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/"$gene"_inclinvar1.csv
+        echo -e "$linea"','"$line_clinvar" >> /mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/"$gene"_inclinvar1.csv
      #cuando hay coincidencia lo unimos con la linea del archivo en clinvar que coincide el CPRA
      fi
   done < <(tail -n +2 "$archive_sacbe") #esta linea hace que el while comience a correr omitiendo el encabezado
