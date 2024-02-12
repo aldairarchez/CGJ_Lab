@@ -31,6 +31,7 @@ for gene in "${gene_list[@]}"; do
         resultado="NA"
       fi
       echo "$resultado" >> columna.tsv
+      sed -i 's/,/;/g' columna.tsv
     done < "$archivo"
     paste "$gene"_clinvar.tsv columna.tsv > temporal.tsv
     cp temporal.tsv "$gene"_clinvar.tsv
@@ -45,9 +46,9 @@ for gene in "${gene_list[@]}"; do
    rm "$gene"_Clinvar.tsv
    rm "$gene".vcf
    rm columna.tsv
-   #lo pasamos a un archivo csv
-   sed -i 's/\t/,/g' "$gene"_clinvar.tsv 
-   cp  "$gene"_clinvar.tsv "$gene"_clinvar.csv
+   #convertimos el archivo en csv
+   sed -i 's/\t/,/' "$gene"_clinvar.tsv
+   cp "$gene"_clinvar.tsv "$gene"_clinvar.csv
    rm "$gene"_clinvar.tsv
  done < GENES.txt
  rm archivo_vacio.tsv
