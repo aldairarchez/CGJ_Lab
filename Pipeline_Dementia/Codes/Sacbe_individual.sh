@@ -12,5 +12,5 @@ tail -n +2 "$archivo" | while IFS=',' read -r GENE CHR START END; do
     # Filtrar y agregar líneas al archivo de salida
     echo "$encabezado" > "$archivo_salida"
     #busca coincidecias PARCIALES (PSEN1,PSEN1)
-    awk -F',' -v GENE="$GENE" '$18 ~ GENE' "$archivo_entrada" >> "$archivo_salida"
+    awk -F'\t' -v GENE="$GENE" '$18 ~ GENE' "$archivo_entrada" >> "$archivo_salida"
 done
