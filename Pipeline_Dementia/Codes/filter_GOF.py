@@ -5,7 +5,7 @@ import pandas as pd
 gene = sys.argv[1]
 
 # Cargar el archivo CSV en un DataFrame
-data = pd.read_csv('/mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/'+f'{gene}_inclinvar1.csv', sep=',', encoding='utf-8')
+data = pd.read_csv('/mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/'+f'{gene}_inclinvar1.csv', sep='\t', encoding='utf-8')
 
 pattern = r"nonsynonymous SNV"
 
@@ -13,4 +13,4 @@ pattern = r"nonsynonymous SNV"
 data['GOF'] = data['ANNOTATION'].str.contains(pattern, regex=True).map({True: 'YES', False: 'NO'})
 
 # Guardar los datos en un nuevo archivo
-data.to_csv('/mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/'+f'{gene}_GOF.csv', sep=',', index=False)
+data.to_csv('/mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/'+f'{gene}_GOF.csv', sep='\t', index=False)
