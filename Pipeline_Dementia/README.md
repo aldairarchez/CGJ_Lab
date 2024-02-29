@@ -78,7 +78,15 @@ chmod +x Sacbe_individual.sh
 ```
 # creating GOF and LOF gene lists
 GOF_GENES.txt
+```
+MAPT
+APP
+```
 ### create filter_GOF.py and MCPS_GOF.sh and filter_clinvar.py
+Files:
+[filter_GOF.py](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia/Codes/filter_GOF.py)
+[MCPS_GOF.sh](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia/Codes/MCPS_GOF.sh)
+[filter_clinvar.py](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia/Codes/filter_clinvar.py)
 ```bash
 chmod +x filter_GOF.py
 chmod +x MCPS_GOF.sh
