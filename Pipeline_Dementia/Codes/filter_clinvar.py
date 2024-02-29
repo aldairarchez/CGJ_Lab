@@ -5,7 +5,7 @@ import pandas as pd
 gene = sys.argv[1]
 
 # Cargar el archivo CSV en un DataFrame
-data = pd.read_csv('/mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/'+f'{gene}_GOF.csv', sep=',', encoding='utf-8')
+data = pd.read_csv('/mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/'+f'{gene}_GOF.tsv', sep='\t', encoding='utf-8')
 
 pattern = r"(Pathogenic|Likely_pathogenic)"
 
@@ -13,5 +13,5 @@ pattern = r"(Pathogenic|Likely_pathogenic)"
 filtered_data = data[data['CLNSIG_2'].str.extract(pattern, expand=False).notna()] #CLNSIG_2 es la columna mas actualizada de la significancia en clinvar
 
 # Guardar los datos filtrados en un nuevo archivo
-filtered_data.to_csv(f'{gene}_inclinvar.tsv', sep=',', index=False) 
+filtered_data.to_csv(f'{gene}_inclinvar.tsv', sep='\t', index=False) 
 
