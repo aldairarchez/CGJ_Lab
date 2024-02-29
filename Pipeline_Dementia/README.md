@@ -45,7 +45,6 @@ MC
 ```bash
 chmod +x clinvar.sh
 ./clinvar.sh
-sed -i 's/\t/,/g' *clinvar.csv
 ```
 ## Filtering of MCPS vcfs
 + directory of the MCPS files: /mnt/Timina/cgonzaga/resources/MCPS/CHRS_June2022
