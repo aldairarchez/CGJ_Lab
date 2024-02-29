@@ -87,10 +87,10 @@ Files:
 
 [MCPS_GOF.sh](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia/Codes/MCPS_GOF.sh)
 
-[filter_clinvar.py](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia/Codes/filter_clinvar.py)
+[filter_clinvar_GOF.py](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia/Codes/filter_clinvar_GOF.py)
 ```bash
 chmod +x filter_GOF.py
 chmod +x MCPS_GOF.sh
-chmod +x filter_clinvar.py
+chmod +x filter_clinvar_GOF.py
 ./MCPS_GOF.sh
 ```
