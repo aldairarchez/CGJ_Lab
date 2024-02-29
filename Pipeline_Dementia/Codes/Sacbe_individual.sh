@@ -8,7 +8,7 @@ encabezado=$(awk NR==1 Marlon_sacbe.varfile.ex.EDITED)
 tail -n +2 "$archivo" | while IFS=',' read -r GENE CHR START END; do
     chrom=$(echo "$CHR" | tr -cd '[:alnum:]')
     archivo_entrada="/mnt/Timina/cgonzaga/marciniega/Dementia_2024/Marlon_sacbe.varfile.ex.EDITED"
-    archivo_salida="/mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/${GENE}_sacbe.csv"
+    archivo_salida="/mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/${GENE}_sacbe.tsv"
     # Filtrar y agregar líneas al archivo de salida
     echo "$encabezado" > "$archivo_salida"
     #busca coincidecias PARCIALES (PSEN1,PSEN1)
