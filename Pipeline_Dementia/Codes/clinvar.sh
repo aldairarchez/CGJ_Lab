@@ -46,10 +46,6 @@ for gene in "${gene_list[@]}"; do
    rm "$gene"_Clinvar.tsv
    rm "$gene".vcf
    rm columna.tsv
-   #convertimos el archivo en csv
-   sed -i 's/\t/,/' "$gene"_clinvar.tsv
-   cp "$gene"_clinvar.tsv "$gene"_clinvar.csv
-   rm "$gene"_clinvar.tsv
  done < GENES.txt
  rm archivo_vacio.tsv
  rm temporal.tsv
