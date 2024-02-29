@@ -42,7 +42,7 @@ for gene in "${gene_list[@]}"; do
   python3 filter_GOF.py "$gene"
 
   #corremos el script que filtra por patogenicidad
-  python3 filter_clinvar.py "$gene"
+  python3 filter_clinvar_GOF.py "$gene"
 
   #eliminamos archivo sin filtrado de CLNSIG
   rm "$gene"_inclinvar1.csv
