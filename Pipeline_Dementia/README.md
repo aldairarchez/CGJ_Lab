@@ -69,7 +69,7 @@ PSEN2,1,226870616,226896098
 MAPT,17,45894554,46028334
 APP,21,25880550,2617077
 ```
-Creating the file Sacbe_individual.sh and running the following codes
+### Creating the file [Sacbe_individual.sh](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia/Codes/Sacbe_individual.sh) and running the following codes
 ```bash
 cp /mnt/Timina/cgonzaga/Sandbox/Annotations_Sacbe/Marlon_sacbe.varfile.ex.EDITED /mnt/Timina/cgonzaga/marciniega/Dementia_2024
 chmod +x Sacbe_individual.sh
