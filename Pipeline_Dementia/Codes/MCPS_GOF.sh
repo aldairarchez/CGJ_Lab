@@ -45,6 +45,6 @@ for gene in "${gene_list[@]}"; do
   python3 filter_clinvar_GOF.py "$gene"
 
   #eliminamos archivo sin filtrado de CLNSIG
-  rm "$gene"_inclinvar1.csv
+  rm "$gene"_inclinvar1.tsv
   
 done < GOF_GENES.txt
