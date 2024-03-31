@@ -11,7 +11,7 @@ for gene in "${gene_list[@]}"; do
   # unimos encabezados para el archivo inclinvar
   encabezado1=$(sed -n 1p "$archive_sacbe")
   encabezado2=$(sed -n 1p "$archive_clinvar")
-  echo -e "$encabezado1,$encabezado2" > /mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/"$gene"_inclinvar1.tsv
+  echo -e "$encabezado1\t$encabezado2" > /mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/"$gene"_inclinvar1.tsv
   
   # Omite el encabezado del archivo para inciar la busqueda
   tail -n +2 "$archive_sacbe" | while IFS= read -r linea
@@ -27,7 +27,7 @@ for gene in "${gene_list[@]}"; do
         #guardamos la linea completa en una variable
         line_clinvar=$(sed -n "$line_matching"p "$archive_clinvar")
         # unimos la linea actual de MCPS (dada por el while) y la linea que coincide de clinvar
-        echo -e "$linea"','"$line_clinvar" >> /mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/"$gene"_inclinvar1.tsv
+        echo -e "$linea"'\t'"$line_clinvar" >> /mnt/Timina/cgonzaga/marciniega/Dementia_2024/genes_files/"$gene"_inclinvar1.tsv
      #cuando hay coincidencia lo unimos con la linea del archivo en clinvar que coincide el CPRA
      fi
   done < <(tail -n +2 "$archive_sacbe") #esta linea hace que el while comience a correr omitiendo el encabezado
@@ -38,7 +38,7 @@ for gene in "${gene_list[@]}"; do
   #COMENZAMOS FILTRADO TANTO DE ANOTACIONES COMO PARA SABER SI ERAN PATOGENICAS/PROBABLEMENTE PATOGENICAS
   #cargamos el modulo de python
   module load python38/3.8.3
-  #corremos el cript que filtra la columna annotations para quedarnos con variantes de LOF
+  #corremos el script que filtra la columna annotations para quedarnos con variantes de GOF
   python3 filter_GOF.py "$gene"
 
   #corremos el script que filtra por patogenicidad
