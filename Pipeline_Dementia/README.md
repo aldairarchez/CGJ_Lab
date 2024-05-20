@@ -60,7 +60,7 @@ The following codes will parsed the columns needed from the vcf, add headers and
 |-|-|
 |MAPT<br>APP|nonsynonymous SNV|
 
-|Annotations nos used to filter|
+|Annotations not used to filter|
 |-|
 |nonframeshift deletion<br>nonframeshift insertion<br>synonymous SNV|
 
