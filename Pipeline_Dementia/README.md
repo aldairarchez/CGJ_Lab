@@ -53,11 +53,17 @@ The following codes will parsed the columns needed from the vcf, add headers and
 
 |Loss of function genes|Annotation|
 |-|-|
-|PSEN1 <br> PSEN2<br>GRN|frameshift<br>start_lost<br>stop_gained<br>stop_lost<br>splice_donor<br>splice_acceptor<br>splice_region|
+|PSEN1 <br> PSEN2<br>GRN|exonic;splicing<br>splicing<br>frameshift deletion<br>frameshift insertion<br>stopgain SNV<br>stoploss SNV|
+
 
 |Gain of function genes|Annotation|
 |-|-|
-|MAPT<br>APP|missense|
+|MAPT<br>APP|nonsynonymous SNV|
+
+|Annotations nos used to filter|
+|-|
+|nonframeshift deletion<br>nonframeshift insertion<br>synonymous SNV|
+
 
 ### creating indiidual archives per gene with the sacbe annotaion (pipeline Claudia)
 first you need to create an achiv with the coordinates obtained from UCSC Browser
