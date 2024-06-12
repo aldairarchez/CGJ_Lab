@@ -10,17 +10,38 @@ The file contains 78 columns separated by tabs, here is an example:
 |-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|
 |chr1|226881956|226881956|C|T|.|WES|.|11|276400|3.98e-05|6944723618.09045|.|.|1:226881956:C:T|1q42.13|nonsynonymous SNV|PSEN2|presenilin 2|NM_000447|exon4|c.C49T|p.R17W|PSEN2:NM_000447:exon4:c.C49T:p.R17W,PSEN2:NM_012486:exon4:c.C49T:p.R17W,|na|na|na|3.297e-05|2.386e-05|0.0002|1.314e-05|0.416|neutral|-0.444|0.036|0.993|0.980|0.39125|14.596|-5.39|deleterious|0.868|deleterious|1.009|deleterious|0.980|deleterious|0.000|deleterious|0.051|tolerated|-2.43|neutral|1.0|probably_damaging|0.906|possibly_damaging|1.000|disease_causing|0.975|nonfunctional:L|0.776|0.999|6.780|32|0.707|0|33.056|PSEN2(600759):Alzheimer disease-4, 606889 (3); Cardiomyopathy, dilated, 1V, 613697 (3)|Uncertain_significance|189386|not_provided|2.90503e-05|11|0|https://www.ncbi.nlm.nih.gov/gene/5664|http://www.gtexportal.org/home/gene/PSEN2|https://www.ncbi.nlm.nih.gov/clinvar/variation/189386|
 
-### Descarga de anotaciones de clinvar
+## Generation of individual Sacbe files per gene
+This process is done using the [sacbe_individual.sh](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia_UPDATE/Codes/sacbe_individual.sh)
+<img src="https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia_UPDATE/Images/Individual_sacbe.jpeg">
+The script take as input the file with the Sacbe annotations and the genes coordinates obtained from [UCSC Genome browser](https://genome.ucsc.edu/)
+
+```bash
+GENE,CHR,START,END
+GRN,17,44345302,44353106
+PSEN1,14,73136507,73223691
+PSEN2,1,226870616,226896098
+MAPT,17,45894554,46028334
+APP,21,25880550,2617077
+```
+Running the script 
+```bash
+cp /mnt/Timina/cgonzaga/Sandbox/Annotations_Sacbe/Marlon_sacbe.varfile.ex.EDITED /mnt/Timina/cgonzaga/marciniega/Dementia_2024
+chmod +x sacbe_individual.sh
+./sacbe_individual.sh
+```
+## Download of ClinVar annotations
 Obtaining the download link (**last updated 21/01/24**):
 + Home page > Downloads/FTP site > vcf_GRCh38 > clinvar.vcf.gz
 ```bash
 wget https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz
 gunzip clinvar.vcf.gz #uncompressing the file
 ```
+## Obtaining the ClinVar variants for our genes of interest
+<img src="https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia_UPDATE/Images/Clinvar_workflow.jpeg">
 
-## Archived needed for the pipeline to work
-+ List of the genes realted to dementia
-
+### Archives needed for the clinvar.sh script to work
++ List of the genes related to dementia
+  
 GENES.txt
 ```bash
 GRN
@@ -44,16 +65,12 @@ AF_EXAC
 AF_TGP
 MC
 ```
-### Running of [clinvar.sh](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia/Codes/clinvar.sh) code to obtain individual clinvar files per gene
+### Running of [clinvar.sh](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia_UPDATE/Codes/clinvar.sh) code to obtain individual clinvar files per gene
 ```bash
 chmod +x clinvar.sh
 ./clinvar.sh
 ```
-## Filtering of MCPS vcfs
-+ directory of the MCPS files: /mnt/Timina/cgonzaga/resources/MCPS/CHRS_June2022
-
-The following codes will parsed the columns needed from the vcf, add headers and filter by annotations if the genes are **loss** or **gain of function**
-
+## Obtaining loss and gain of function variants
 |Loss of function genes|Annotation|
 |-|-|
 |PSEN1 <br> PSEN2<br>GRN|exonic;splicing<br>splicing<br>frameshift deletion<br>frameshift insertion<br>stopgain SNV<br>stoploss SNV|
@@ -67,42 +84,37 @@ The following codes will parsed the columns needed from the vcf, add headers and
 |-|
 |nonframeshift deletion<br>nonframeshift insertion<br>synonymous SNV|
 
+#### Workflow to obtain the loss and gain of function variants
+<img src="https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia_UPDATE/Images/variants_workflow.jpeg">
 
-### creating indiidual archives per gene with the sacbe annotaion (pipeline Claudia)
-first you need to create an achiv with the coordinates obtained from UCSC Browser
-```bash
-GENE,CHR,START,END
-GRN,17,44345302,44353106
-PSEN1,14,73136507,73223691
-PSEN2,1,226870616,226896098
-MAPT,17,45894554,46028334
-APP,21,25880550,2617077
-```
-### Creating the file [Sacbe_individual.sh](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia/Codes/Sacbe_individual.sh) and running the following codes
-```bash
-cp /mnt/Timina/cgonzaga/Sandbox/Annotations_Sacbe/Marlon_sacbe.varfile.ex.EDITED /mnt/Timina/cgonzaga/marciniega/Dementia_2024
-chmod +x Sacbe_individual.sh
-./Sacbe_individual.sh
-```
-# creating GOF and LOF gene lists
+### creating GOF and LOF gene lists
 GOF_GENES.txt
 ```
 MAPT
 APP
 ```
-### create filter_GOF.py and MCPS_GOF.sh and filter_clinvar.py
-Files:
+LOF_GENES.txt
+```
+GRN
+PSEN1
+PSEN2
+```
+### Running the annotation scripts
+You need to create the following files:
++ [GOF_pipeline.sh](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia_UPDATE/Codes/GOF/GOF_pipeline.sh)
++ [LOF_pipeline.sh](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia_UPDATE/Codes/LOF/LOF_pipeline.sh)
++ [LOF_annotation.py](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia_UPDATE/Codes/LOF/scripts/LOF_annotation.py)
++ [GOF_annotation.py](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia_UPDATE/Codes/GOF/scripts/GOF_annotation.py)
++ [LOF_inclinvar.py](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia_UPDATE/Codes/LOF/scripts/LOF_inclinvar.py)
++ [GOF_inclinvar.py](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia_UPDATE/Codes/GOF/scripts/GOF_inclinvar.py)
 
-
-[MCPS_GOF.sh](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia/Codes/MCPS_GOF.sh)
-
-[filter_GOF.py](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia/Codes/filter_GOF.py)
-
-[filter_clinvar_GOF.py](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia/Codes/filter_clinvar_GOF.py)
+Running the code
 ```bash
-chmod +x filter_GOF.py
-chmod +x MCPS_GOF.sh
-chmod +x filter_clinvar_GOF.py
-./MCPS_GOF.sh
+#we give permision to the .py files to be read
+chmod +x *.py
+chmod +x *.sh
+#we run the scripts to obtain the variants
+./GOF_pipeline.sh
+./LOF_pipeline.sh
 ```
 
