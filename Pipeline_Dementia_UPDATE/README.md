@@ -4,6 +4,7 @@
 ██║╚██╔╝██║██║     ██╔═══╝ ╚════██║    ██╔═══╝ ██║██╔═══╝ ██╔══╝  ██║     ██║██║╚██╗██║██╔══╝  
 ██║ ╚═╝ ██║╚██████╗██║     ███████║    ██║     ██║██║     ███████╗███████╗██║██║ ╚████║███████╗
 ╚═╝     ╚═╝ ╚═════╝╚═╝     ╚══════╝    ╚═╝     ╚═╝╚═╝     ╚══════╝╚══════╝╚═╝╚═╝  ╚═══╝╚══════╝
+
 This pipeline works using Sacbe annotation which is provided by Claudia's script, the process needed for the annotation is described in the repository:
 [Sacbe_annotation](https://github.com/aldairarchez/CGJ_Lab/tree/main/Sacbe_annotation)
 
