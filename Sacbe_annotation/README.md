@@ -4,8 +4,8 @@ This pipeline provides an archive ready to be annotated in Sacbe. Here is an exa
 |------|-------|-----|----|----|----|----|----|----|----|----|----|----|----|
 | 22 | 10510341 | 10510342 | C	| G	| .	| WGS	| .	| 0	| 19896	| 0	| .	| . | 22:10510341:C:G |
 
-### Process workflow
-<img src="https://github.com/aldairarchez/CGJ_Lab/blob/main/Sacbe_annotation/sacbe_workflow.jpeg?raw=true">
+## Process workflow
+<img src="https://github.com/aldairarchez/CGJ_Lab/blob/main/Sacbe_annotation/sacbe_workflow.jpeg">
 
 # Archives you need to create 
 ## Directory where you will save the parsed archives obtained from the vcf from MCPS (*general* archives to different gene lists)
