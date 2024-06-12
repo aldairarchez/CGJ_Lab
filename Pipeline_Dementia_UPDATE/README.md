@@ -101,6 +101,7 @@ PSEN2
 ```
 ### Running the annotation scripts
 You need to create the following files:
+
 [GOF_pipeline.sh](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia_UPDATE/Codes/GOF/GOF_pipeline.sh)
 + [GOF_annotation.py](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia_UPDATE/Codes/GOF/scripts/GOF_annotation.py)
 + [GOF_inclinvar.py](https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia_UPDATE/Codes/GOF/scripts/GOF_inclinvar.py)
