@@ -97,12 +97,12 @@ chmod +x clinvar.sh
 <img src="https://github.com/aldairarchez/CGJ_Lab/blob/main/Pipeline_Dementia_UPDATE/Images/variants_workflow.jpeg">
 
 ### creating GOF and LOF gene lists
-GOF_GENES.txt
+GOF_genes.txt
 ```
 MAPT
 APP
 ```
-LOF_GENES.txt
+LOF_genes.txt
 ```
 GRN
 PSEN1
