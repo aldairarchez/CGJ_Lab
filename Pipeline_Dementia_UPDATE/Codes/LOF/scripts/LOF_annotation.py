@@ -11,7 +11,7 @@ with open('LOF_genes.txt', 'r') as file:
 # Iterar sobre cada gen en la lista
 for gene in gene_list:
     # Cargar el archivo TSV en un DataFrame
-    input_file = f'/mnt/Timina/cgonzaga/marciniega/Dementia_MCPS/sacbe_genes/{gene}_sacbe.tsv'
+    input_file = f'/mnt/Timina/cgonzaga/marciniega/Dementia_MCPS/sacbe_genes/{gene}_sacbe.csv'
     data = pd.read_csv(input_file, sep='\t', encoding='utf-8')
 
     # Lista de palabras clave exactas
