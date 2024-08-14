@@ -38,7 +38,7 @@ cp /mnt/Timina/cgonzaga/Sandbox/Annotations_Sacbe/Marlon_sacbe.varfile.ex.EDITED
 chmod +x sacbe_individual.sh
 ./sacbe_individual.sh
 ```
-# Download of ClinVar annotations
+# Download of ClinVar annotations (ESTO NO SE HACE)
 Obtaining the download link (**last updated 21/01/24**):
 + Home page > Downloads/FTP site > vcf_GRCh38 > clinvar.vcf.gz
 ```bash
