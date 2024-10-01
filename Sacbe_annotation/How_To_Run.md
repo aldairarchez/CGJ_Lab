@@ -14,7 +14,7 @@ qsub sacbe_annotation.sge
 * [sacbe_padded.py](https://github.com/aldairarchez/CGJ_Lab/blob/main/Sacbe_annotation/Codes/sacbe_padded.py)
 * [sacbe_annotation.sge](https://github.com/aldairarchez/CGJ_Lab/blob/main/Sacbe_annotation/Codes/sacbe_annotation.sge)
 
-### Generación de un archivo único concatenando TODOS los archivos finales (1 por cada gen)
+### Generación de un archivo único concatenando TODOS los archivos finales (1 por cada gen). Esto solo se hace si tienes varios genes y para que sea mas facil correr el script de claudia se crea uno de TODOS tus genes
 primero deberemos crear un directorio a donde se enviará este nuevo archivo, aqui se provee un ejemplo:
 ```bash
 mkdir Sacbe
