@@ -1,4 +1,4 @@
-### Esto se corre dentro del directorio donde guardaremos los archivos de cada cromosoma de MCPS
+### OMITE ESTE PASO Esto se corre dentro del directorio donde guardaremos los archivos de cada cromosoma de MCPS
 ```bash
 chmod +x sacbe_type.py
 qsub chromosomes.sge
