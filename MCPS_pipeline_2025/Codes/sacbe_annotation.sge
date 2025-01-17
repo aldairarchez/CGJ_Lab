@@ -1,0 +1,73 @@
+#!/bin/bash
+#!/bin/bash
+#$ -N sacbe_preparation # Nombre del trabajo
+#$ -cwd                # Usar el directorio actual como directorio de trabajo
+#$ -pe smp 10          # Solicitar 10 núcleos
+#$ -l h_vmem=6G        # Solicitar 6 GB de RAM por núcleo
+
+
+# Obtener el directorio actual desde donde se ejecuta el script
+BASE_DIRECTORY=$(pwd)
+
+# Crear la carpeta de salida llamada sacbe_preparation
+OUTPUT_DIRECTORY="${BASE_DIRECTORY}/sacbe_preparation"
+mkdir -p "$OUTPUT_DIRECTORY"
+
+# Verificar que se proporcione el archivo de genes como argumento
+if [ "$#" -ne 1 ]; then
+  echo "Uso: $0 <archivo_genes>"
+  exit 1
+fi
+
+# Obtener el archivo de genes desde el argumento
+archivo="$1"
+
+# Verificar que el archivo de genes exista
+if [ ! -f "$archivo" ]; then
+  echo "El archivo $archivo no existe. Por favor, verifica la ruta."
+  exit 1
+fi
+
+# Iterar a través de cada línea en el archivo (omitir la primera línea con tail)
+tail -n +2 "$archivo" | while IFS=',' read -r GENE CHR START END; do
+  # Limpiar valores de los campos
+  chrom=$(echo "$CHR" | tr -cd '[:alnum:]:')
+  inicio=$(echo "$START" | tr -cd '[:alnum:]:')
+  fin=$(echo "$END" | tr -cd '[:alnum:]:')
+
+  # Archivos de entrada y salida
+  archivo_entrada="/mnt/Timina/cgonzaga/resources/MCPS/CHRS_June2022/chr_pipeline/df_${chrom}_type.tsv"
+  archivo_salida="${OUTPUT_DIRECTORY}/${GENE}_positions.tsv"
+
+  # Verificar que el archivo de entrada exista
+  if [ ! -f "$archivo_entrada" ]; then
+    echo "El archivo de entrada $archivo_entrada no existe. Omitiendo..."
+    continue
+  fi
+
+  # Crear encabezado para el archivo de salida
+  echo -e "CHR\tPOS\tREF\tALT\tSOURCE\tAC_RAW\tAN_RAW\tAF_RAW\tVCF_INFO\tType" > "$archivo_salida"
+
+  # Iterar a través de las líneas del archivo de entrada
+  while IFS=$'\t' read -r CHR POS REF ALT SOURCE AC_RAW AN_RAW AF_RAW VCF_INFO Type; do
+    # Verificar si POS es un número y si está dentro del intervalo
+    if [[ $POS =~ ^[0-9]+$ ]] && ((POS >= inicio && POS <= fin)); then
+      echo -e "$CHR\t$POS\t$REF\t$ALT\t$SOURCE\t$AC_RAW\t$AN_RAW\t$AF_RAW\t$VCF_INFO\t$Type" >> "$archivo_salida"
+    fi
+  done < "$archivo_entrada"
+done
+
+# Corregir espacios perdidos en los archivos generados, reemplazándolos por tabs
+sed -i 's/ /\t/g' "${OUTPUT_DIRECTORY}"/*_positions.tsv
+
+# Generar lista de archivos procesados
+ls "${OUTPUT_DIRECTORY}"/*_positions.tsv > "${OUTPUT_DIRECTORY}/archives_positions.txt"
+
+# Leer la lista de archivos generados y procesarlos con el script de Python
+while IFS= read -r archivo; do
+  # Cargar módulo de Python (ajustar según el entorno)
+  module load python38/3.8.3
+  # Ejecutar el script de Python
+  python3 /mnt/Timina/cgonzaga/resources/MCPS/Clinvar_Jan2025/MCPS_pipeline/sacbe_padded.py "$archivo"
+done < "${OUTPUT_DIRECTORY}/archives_positions.txt"
+
