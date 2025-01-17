@@ -6,7 +6,7 @@
 ██║ ╚═╝ ██║╚██████╗██║     ███████║    ██║     ██║██║     ███████╗███████╗██║██║ ╚████║███████╗
 ╚═╝     ╚═╝ ╚═════╝╚═╝     ╚══════╝    ╚═╝     ╚═╝╚═╝     ╚══════╝╚══════╝╚═╝╚═╝  ╚═══╝╚══════╝
  ```
-
+# Step 1
 ## Create sacbe annotation file from MCPS data and run it with Claudias Script
 ### Files you need to create in the directory where you want to save the files:
 #### an archive called "Genes.csv" in the following format:
@@ -42,7 +42,8 @@ MAPT
 APP
 ```
 + GOF_genes.txt o LOF_genes.txt (according to the genes of interest)
-  GOF_genes.txt
+  
+GOF_genes.txt
 ```
 MAPT
 APP
@@ -55,3 +56,13 @@ PSEN2
 ```
 + Sacbe annotation file of the exonic variants: example of name: Marlon_sacbe.varfile.ex.EDITED
 + Genes.csv (previously made in the first step)
+
+### Running the pipeline
++ *For gain of function genes*
+```
+bash /mnt/Timina/cgonzaga/resources/MCPS/Clinvar_Jan2025/MCPS_pipeline/run_pipeline.sh GOF
+```
++ *For loss of function genes*
+```
+bash /mnt/Timina/cgonzaga/resources/MCPS/Clinvar_Jan2025/MCPS_pipeline/run_pipeline.sh LOF
+```
