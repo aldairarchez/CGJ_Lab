@@ -37,7 +37,7 @@ tail -n +2 "$archivo" | while IFS=',' read -r GENE CHR START END; do
 
   # Archivos de entrada y salida
   archivo_entrada="/mnt/Timina/cgonzaga/resources/MCPS/CHRS_June2022/chr_pipeline/df_${chrom}_type.tsv"
-  archivo_salida="${OUTPUT_DIRECTORY}/${GENE}_positions.tsv"
+  archivo_salida="${OUTPUT_DIRECTORY}/${GENE}_positions.csv"
 
   # Verificar que el archivo de entrada exista
   if [ ! -f "$archivo_entrada" ]; then
@@ -58,10 +58,10 @@ tail -n +2 "$archivo" | while IFS=',' read -r GENE CHR START END; do
 done
 
 # Corregir espacios perdidos en los archivos generados, reemplazándolos por tabs
-sed -i 's/ /\t/g' "${OUTPUT_DIRECTORY}"/*_positions.tsv
+sed -i 's/ /\t/g' "${OUTPUT_DIRECTORY}"/*_positions.csv
 
 # Generar lista de archivos procesados
-ls "${OUTPUT_DIRECTORY}"/*_positions.tsv > "${OUTPUT_DIRECTORY}/archives_positions.txt"
+ls "${OUTPUT_DIRECTORY}"/*_positions.csv > "${OUTPUT_DIRECTORY}/archives_positions.txt"
 
 # Leer la lista de archivos generados y procesarlos con el script de Python
 while IFS= read -r archivo; do
