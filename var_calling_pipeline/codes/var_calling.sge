@@ -1,0 +1,49 @@
+#!/bin/bash
+# Use current working directory
+#$ -cwd
+#
+# Join stdout and stderr
+#$ -j y
+#
+# Run job through bash shell
+#$ -S /bin/bash
+#
+#You can edit the script since this line
+#
+# Your job name
+#$ -N  var_calling_job
+#$ -pe openmp 30
+#$ -e var_calling.err
+#$ -o var_calling.out
+#$ -l h_vmem=10G  
+# Send an email after the job has finished
+#$ -m e
+#$ -M aldarchez26@gmail.com
+
+module load fastqc/0.12.1  
+module load bwa/0.7.15  
+module load samtools/1.9
+module load gatk/4.2.3.0   
+module load python38/3.8.3
+
+#!/bin/bash
+
+# Directory containing the fastq.gz files
+INPUT_DIR="/mnt/Timina/cgonzaga/Data/PYM00205"
+
+# Loop through all R1_001.fastq.gz files in the directory
+for f1 in "$INPUT_DIR"/*_R1.fastq.gz; do
+  # Derive the base name (e.g., "PYM00008_S1_L001") by removing the "_R1_001.fastq.gz" suffix
+  base_name=$(basename "$f1" _R1.fastq.gz)
+  
+  # Define the corresponding R2 file based on the base name
+  f2="${INPUT_DIR}/${base_name}_R2.fastq.gz"
+  
+  # Check if the corresponding R2 file exists
+  if [[ -f "$f2" ]]; then
+    # Run the Python script with the derived arguments
+    python3 pipeline.py -n "$base_name" -f1 "$f1" -f2 "$f2"
+  else
+    echo "Warning: Matching R2 file not found for $f1"
+  fi
+done
