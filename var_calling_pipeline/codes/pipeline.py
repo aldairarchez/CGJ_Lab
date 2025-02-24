@@ -39,31 +39,31 @@ output_vcf = os.path.join(output_dir, '{}.output.vcf'.format(name_file))
 
 
 # Step 1: Perform BWA alignment
-#subprocess.run (['bwa', 'mem', '-M', '/mnt/Timina/cgonzaga/resources/GRCh38.14/prueba/Homo_sapiens_GRCh38.p14.noMT.names.fasta', fastq_file_read1, fastq_file_read2], stdout=open(output_sam, 'w'),check=True)
+subprocess.run (['bwa', 'mem', '-M', '/mnt/Timina/cgonzaga/resources/GRCh38.14/prueba/Homo_sapiens_GRCh38.p14.noMT.names.fasta', fastq_file_read1, fastq_file_read2], stdout=open(output_sam, 'w'),check=True)
 
 # Step 2: Convert SAM to BAM and sort
-#subprocess.run(['samtools', 'view', '-Sb', output_sam, '-o', output_bam], check=True)
-#subprocess.run(['samtools', 'sort', output_bam, '-o', output_sorted_bam], check=True)
+subprocess.run(['samtools', 'view', '-Sb', output_sam, '-o', output_bam], check=True)
+subprocess.run(['samtools', 'sort', output_bam, '-o', output_sorted_bam], check=True)
 
 # Step 3: Index the sorted BAM file
-#subprocess.run(['samtools', 'index', output_sorted_bam],stdout=open(output_sorted_bam_index, 'w'), check=True)
+subprocess.run(['samtools', 'index', output_sorted_bam],stdout=open(output_sorted_bam_index, 'w'), check=True)
 
 # Step 4: Perform GATK variant calling
 ##################Here the variant calling with GATK starts#####################
 # Step 1: AddOrReplaceReadGroups
-#subprocess.run(["gatk", "AddOrReplaceReadGroups",
- #                   "-I", output_sorted_bam,
-  #                  "-O",output_read_groups ,
-   #                 "-RGPU", "M04871",
-    #                "-RGLB", '{}'.format(name_file),
-     #               "-RGPL", "ILLUMINA",
-      #              "-RGSM", '{}'.format(name_file)], check=True)
+subprocess.run(["gatk", "AddOrReplaceReadGroups",
+                    "-I", output_sorted_bam,
+                    "-O",output_read_groups ,
+                    "-RGPU", "M04871",
+                    "-RGLB", '{}'.format(name_file),
+                    "-RGPL", "ILLUMINA",
+                    "-RGSM", '{}'.format(name_file)], check=True)
  #Step 2: MarksDuplicate   
 
-#subprocess.run(["gatk", "MarkDuplicatesSpark",
- #                   "-I", output_read_groups,
-   #                 "-O", output_marksDuplicate,
-    #                "-M", output_metrics], check=True)
+subprocess.run(["gatk", "MarkDuplicatesSpark",
+                    "-I", output_read_groups,
+                    "-O", output_marksDuplicate,
+                    "-M", output_metrics], check=True)
     
 # Step 3: BaseRecalibrator  
 
