@@ -3,8 +3,12 @@
 # Cargar módulo
 module load bcftools/1.10.2
 
-# Obtener el directorio desde donde se ejecuta el script
-output_directory=$(pwd)
+# Obtener el directorio desde donde se ejecuta el script y definir el subdirectorio Clinvar
+output_directory="$(pwd)/Clinvar"
+
+# Crear el directorio Clinvar si no existe
+mkdir -p "$output_directory"
+
 
 # Crear el archivo GENES.txt si no existe (solo para asegurarte)
 if [ ! -f GENES.txt ]; then
