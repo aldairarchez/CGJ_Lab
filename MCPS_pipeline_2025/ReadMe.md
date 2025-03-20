@@ -33,27 +33,15 @@ The file contains 78 columns separated by tabs, here is an example:
 MCPS files and ClinVar merged and filtered by pathogenicity (pathogenic/likely pathogenic)
 
 ### Files you need to have in the directory in order to run the script
-+ GENES.txt (list of ALL genes, no matter if they are LOF or GOF)
++ Genes_list.txt (list of ALL genes, no matter if they are LOF or GOF) *must be tab separated*
  ```bash
-GRN
-PSEN1
-PSEN2
-MAPT
-APP
+GRN LOF
+PSEN1 LOF
+PSEN2 LOF
+MAPT GOF
+APP GOF
 ```
-+ GOF_genes.txt o LOF_genes.txt (according to the genes of interest)
-  
-GOF_genes.txt
-```
-MAPT
-APP
-```
-LOF_genes.txt
-```
-GRN
-PSEN1
-PSEN2
-```
+
 + Sacbe annotation file of the exonic variants: example of name: Marlon_sacbe.varfile.ex.EDITED
 + Genes.csv (previously made in the first step)
 
