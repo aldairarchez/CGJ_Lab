@@ -39,7 +39,7 @@ chmod +x sacbe_individual.sh
 ./sacbe_individual.sh
 ```
 # Download of ClinVar annotations (ESTO NO SE HACE)
-Obtaining the download link (**last updated 21/01/24**):
+Obtaining the download link (**last updated 18/03/25**):
 + Home page > Downloads/FTP site > vcf_GRCh38 > clinvar.vcf.gz
 ```bash
 wget https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz
