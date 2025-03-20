@@ -1,37 +1,49 @@
 #!/bin/bash
 
-#obtains a file for each gene from the GENES.txt file with the variants found in ClinVar
-bash /mnt/Timina/cgonzaga/resources/MCPS/Clinvar_Jan2025/MCPS_pipeline/clinvar.sh
-#obtains a file per gene from the file made by Claudia's script
-bash /mnt/Timina/cgonzaga/resources/MCPS/Clinvar_Jan2025/MCPS_pipeline/sacbe_individual.sh
+# Verificar que se proporcione un archivo de entrada
+if [ $# -ne 1 ]; then
+  echo "Uso: $0 <archivo_de_genes.txt>"
+  exit 1
+fi
 
+# Archivo de entrada con la lista de genes y su tipo de análisis
+GENES_FILE=$1
 
-# Usar el directorio desde donde se ejecuta el script como output directory
+# Verificar si el archivo de entrada existe
+if [ ! -f "$GENES_FILE" ]; then
+  echo "Error: El archivo $GENES_FILE no existe."
+  exit 1
+fi
+
+# Obtener el directorio actual como directorio de salida
 OUTPUT_DIRECTORY=$(pwd)
 
-# Verificar que se proporcione un argumento
-if [ $# -ne 1 ]; then
-  echo "Uso: $0 <GOF|LOF>"
-  exit 1
-fi
+# Ejecutar las dos primeras instrucciones solo una vez
+echo "Ejecutando clinvar.sh..."
+bash /mnt/Timina/cgonzaga/resources/MCPS/Clinvar_Jan2025/MCPS_pipeline/clinvar.sh
 
-# Obtener el tipo (GOF o LOF)
-TYPE=$1
-
-# Verificar si el argumento es válido
-if [[ "$TYPE" != "GOF" && "$TYPE" != "LOF" ]]; then
-  echo "Error: El argumento debe ser 'GOF' o 'LOF'."
-  exit 1
-fi
-
-# Crear el directorio correspondiente (LOF_files o GOF_files)
-mkdir -p "${OUTPUT_DIRECTORY}/${TYPE}_files"
+echo "Ejecutando sacbe_individual.sh..."
+bash /mnt/Timina/cgonzaga/resources/MCPS/Clinvar_Jan2025/MCPS_pipeline/sacbe_individual.sh
 
 # Cargar el módulo de Python
 module load python38/3.8.3
 
-# Ejecutar el script unificado de filtrado
-echo "Ejecutando análisis para $TYPE..."
-python3 /mnt/Timina/cgonzaga/resources/MCPS/Clinvar_Jan2025/MCPS_pipeline/variants_filtering.py "$OUTPUT_DIRECTORY" "$TYPE"
+# Leer el archivo de genes y procesar cada gen según su tipo
+while IFS=$'\t' read -r GENE TYPE; do
+  # Verificar si el tipo es válido
+  if [[ "$TYPE" != "GOF" && "$TYPE" != "LOF" ]]; then
+    echo "Error: Tipo inválido para el gen $GENE. Debe ser 'GOF' o 'LOF'."
+    continue
+  fi
 
-echo "Análisis para $TYPE completado. Archivos en: ${OUTPUT_DIRECTORY}/${TYPE}_files"
+  # Crear el directorio correspondiente (LOF_files o GOF_files)
+  mkdir -p "${OUTPUT_DIRECTORY}/${TYPE}_files"
+
+  # Ejecutar el script de filtrado para el gen y tipo actual
+  echo "Ejecutando análisis para el gen $GENE ($TYPE)..."
+  python3 /mnt/Timina/cgonzaga/resources/MCPS/Clinvar_Jan2025/MCPS_pipeline/variants_filtering.py "$OUTPUT_DIRECTORY" "$TYPE"
+
+  echo "Análisis para el gen $GENE ($TYPE) completado. Archivos en: ${OUTPUT_DIRECTORY}/${TYPE}_files"
+done < "$GENES_FILE"
+
+echo "Proceso completado."
