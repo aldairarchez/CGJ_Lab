@@ -46,11 +46,7 @@ APP GOF
 + Genes.csv (previously made in the first step)
 
 ### Running the pipeline
-+ *For gain of function genes*
 ```
-bash /mnt/Timina/cgonzaga/resources/MCPS/Clinvar_Jan2025/MCPS_pipeline/run_pipeline.sh GOF
+bash /mnt/Timina/cgonzaga/resources/MCPS/Clinvar_Jan2025/MCPS_pipeline/MCPS_pipeline.sh Genes_list.txt
 ```
-+ *For loss of function genes*
-```
-bash /mnt/Timina/cgonzaga/resources/MCPS/Clinvar_Jan2025/MCPS_pipeline/run_pipeline.sh LOF
-```
+
