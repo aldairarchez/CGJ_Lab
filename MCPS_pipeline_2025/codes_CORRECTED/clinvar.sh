@@ -56,12 +56,11 @@ for gene in "${gene_list[@]}"; do
   done
 
   # Crear el CPRA y agregar encabezados
-  awk '{print $1":"$2":"$3":"$4"\t"$5"\t"$6"\t"$7"\t"$8"\t"$9"\t"$10"\t"$11"\t"$12"\t"$13"\t"$14}' "$output_directory"/"$gene"_clinvar.tsv > "$output_directory"/"$gene"_Clinvar.tsv
-  cp "$output_directory"/archivo_vacio.tsv "$output_directory"/"$gene"_clinvar.tsv
-  echo -e "CPRA\tGENEINFO\tRS_ID\tCLNDN_2\tCLNHGVS\tCLNSIG_2\tCLNVC\tAF_ESP\tAF_EXAC\tAF_TGP\tMC" | cat - "$output_directory"/"$gene"_Clinvar.tsv > "$output_directory"/ClinVar/"$gene"_clinvar.tsv
-  
+  awk '{print $1":"$2":"$3":"$4"\t"$5"\t"$6"\t"$7"\t"$8"\t"$9"\t"$10"\t"$11"\t"$12"\t"$13"\t"$14}' "$output_directory"/"$gene"_clinvar.tsv > "$output_directory"/ClinVar/"$gene"_Clinvar.tsv
+  echo -e "CPRA\tGENEINFO\tRS_ID\tCLNDN_2\tCLNHGVS\tCLNSIG_2\tCLNVC\tAF_ESP\tAF_EXAC\tAF_TGP\tMC" | cat - "$output_directory"/ClinVar/"$gene"_Clinvar.tsv > "$output_directory"/ClinVar/"$gene"_clinvar.tsv
+
   # Limpiar archivos temporales
-  rm "$output_directory"/"$gene"_Clinvar.tsv
+  rm "$output_directory"/ClinVar/"$gene"_Clinvar.tsv
   rm "$output_directory"/"$gene".vcf
   rm "$output_directory"/columna.tsv
 
