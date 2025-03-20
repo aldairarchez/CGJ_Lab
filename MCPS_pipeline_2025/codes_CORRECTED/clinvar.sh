@@ -3,21 +3,20 @@
 # Cargar módulo
 module load bcftools/1.10.2
 
-# Obtener el directorio desde donde se ejecuta el script y definir el subdirectorio Clinvar
+# Obtener el directorio desde donde se ejecuta el script
 output_directory=$(pwd)
 
 # Crear el directorio Clinvar si no existe
-mkdir -P ClinVar
+mkdir -p ClinVar
 
-
-# Crear el archivo GENES.txt si no existe (solo para asegurarte)
-if [ ! -f GENES.txt ]; then
-  echo "Error: El archivo GENES.txt no existe en el directorio actual ($output_directory)."
+# Verificar si el archivo Genes_list.txt existe
+if [ ! -f Genes_list.txt ]; then
+  echo "Error: El archivo Genes_list.txt no existe en el directorio actual ($output_directory)."
   exit 1
 fi
 
-# Leer la lista de genes
-gene_list=($(cat GENES.txt))
+# Leer la lista de genes (solo la primera columna)
+gene_list=($(cut -f1 Genes_list.txt))
 
 # Crear directorio de salida si no existe
 mkdir -p "$output_directory"
