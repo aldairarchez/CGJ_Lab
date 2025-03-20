@@ -7,7 +7,7 @@ TYPE = sys.argv[2]  # 'LOF' o 'GOF'
 
 # Leer la lista de genes
 with open('Genes_list.txt', 'r') as file:
-    gene_list = file.read().splitlines()
+    gene_list = [line.split('\t')[0] for line in file.read().splitlines()]  # Solo tomar la primera columna (nombre del gen)
 
 # Definir palabras clave según el tipo de análisis
 if TYPE == "LOF":
@@ -25,7 +25,11 @@ else:
 for gene in gene_list:
     # Cargar los datos de Sacbe
     sacbe_file = f'{OUTPUT_DIRECTORY}/sacbe_genes/{gene}_sacbe.tsv'
-    sacbe_data = pd.read_csv(sacbe_file, sep='\t', encoding='utf-8')
+    try:
+        sacbe_data = pd.read_csv(sacbe_file, sep='\t', encoding='utf-8')
+    except FileNotFoundError:
+        print(f"Advertencia: No se encontró el archivo {sacbe_file}. Saltando este gen.")
+        continue
     
     # Agregar columna de anotación (YES/NO)
     sacbe_data['Annotation_Match'] = sacbe_data.apply(
@@ -34,7 +38,11 @@ for gene in gene_list:
     
     # Cargar datos de ClinVar
     clinvar_file = f'{OUTPUT_DIRECTORY}/ClinVar/{gene}_clinvar.tsv'
-    clinvar_data = pd.read_csv(clinvar_file, sep='\t', encoding='utf-8')
+    try:
+        clinvar_data = pd.read_csv(clinvar_file, sep='\t', encoding='utf-8')
+    except FileNotFoundError:
+        print(f"Advertencia: No se encontró el archivo {clinvar_file}. Saltando este gen.")
+        continue
     
     # Agregar columna de presencia en ClinVar (YES/NO)
     sacbe_data['ClinVar_Match'] = sacbe_data['ID'].apply(
