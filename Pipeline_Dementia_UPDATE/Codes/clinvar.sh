@@ -9,7 +9,8 @@ output_directory=/mnt/Timina/cgonzaga/marciniega/Dementia_MCPS/clinvar_genes
 for gene in "${gene_list[@]}"; do
 
   # filtrando por gen y significancia en clinvar, la opcion grep -w omite palabras que empiezan igual y -E excluye similitudes
-  filtrado=$(bcftools query -f '%CHROM\t%POS\t%REF\t%ALT\t%ID\t %INFO[%GENEINFO\t%ID%CLNDN\t%CLNHGVS\t%CLNSIG\t%CLNVC\t%AF_ESP\t%AF_EXAC\t%AF_TGP %MC]\n' /mnt/Timina/cgonzaga/marciniega/Dementia_2024/clinvar.vcf | grep -w "GENEINFO=$gene")
+  filtrado=$(bcftools query -f '%CHROM\t%POS\t%REF\t%ALT\t%ID\t %INFO[%GENEINFO\t%ID%CLNDN\t%CLNHGVS\t%CLNSIG\t%CLNVC\t%AF_ESP\t%AF_EXAC\t%AF_TGP %MC]\n' /mnt/Timina/cgonzaga/marciniega/Dementia_2024/clinvar.vcf | grep -E "GENEINFO=.*\b${gene}\b.*")
+
   echo "$filtrado" > "$output_directory"/"$gene".vcf
   #quita los ; y agrega tabs
   sed -i 's/;/\t/g' "$output_directory"/"$gene".vcf
