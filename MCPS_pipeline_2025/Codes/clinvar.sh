@@ -22,7 +22,8 @@ mkdir -p "$output_directory"
 for gene in "${gene_list[@]}"; do
 
   # Filtrar por gen y significancia en ClinVar
-  filtrado=$(bcftools query -f '%CHROM\t%POS\t%REF\t%ALT\t%ID\t %INFO[%GENEINFO\t%ID%CLNDN\t%CLNHGVS\t%CLNSIG\t%CLNVC\t%AF_ESP\t%AF_EXAC\t%AF_TGP %MC]\n' /mnt/Timina/cgonzaga/resources/MCPS/Clinvar_Jan2025/clinvar.vcf | grep -w "GENEINFO=$gene")
+  # filtrando por gen y significancia en clinvar, la opcion grep -w omite palabras que empiezan igual y -E excluye similitudes
+  filtrado=$(bcftools query -f '%CHROM\t%POS\t%REF\t%ALT\t%ID\t %INFO[%GENEINFO\t%ID%CLNDN\t%CLNHGVS\t%CLNSIG\t%CLNVC\t%AF_ESP\t%AF_EXAC\t%AF_TGP %MC]\n' /mnt/Timina/cgonzaga/marciniega/Dementia_2024/clinvar.vcf | grep -E "GENEINFO=.*\b${gene}\b.*")
   echo "$filtrado" > "$output_directory"/"$gene".vcf
 
   # Reemplazar ';' con tabulaciones
