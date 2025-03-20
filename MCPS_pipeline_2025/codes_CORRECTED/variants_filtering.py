@@ -6,7 +6,7 @@ OUTPUT_DIRECTORY = sys.argv[1]
 TYPE = sys.argv[2]  # 'LOF' o 'GOF'
 
 # Leer la lista de genes
-with open('LOF_genes.txt', 'r') as file:
+with open('Genes_list.txt', 'r') as file:
     gene_list = file.read().splitlines()
 
 # Definir palabras clave según el tipo de análisis
