@@ -55,9 +55,9 @@ for gene, analysis_type in gene_data:
         continue
 
     # Filtrar variantes patogénicas en ClinVar
-    pathogenic_significance = ["pathogenic", "likely pathogenic"]
+    pathogenic_significance = ["pathogenic", "likely pathogenic", "pathogenic/likely pathogenic"]
     clinvar_data_filtered = clinvar_data[
-        clinvar_data.iloc[:, 5].str.lower().isin(pathogenic_significance)  # Suponiendo que la columna 6 (índice 5) es "CLNSIG"
+        clinvar_data.iloc[:, 5].str.lower().isin(pathogenic_significance)  # Suponiendo que la columna 6 (índice 5) es "CLINSIG"
     ]
 
     # Agregar columna de presencia en ClinVar (YES/NO) para variantes patogénicas
@@ -91,7 +91,28 @@ for gene, analysis_type in gene_data:
     output_dir = f'{OUTPUT_DIRECTORY}/{analysis_type}_files'
     os.makedirs(output_dir, exist_ok=True)
 
-    # Guardar el archivo combinado y filtrado
+    # Guardar el archivo combinado y filtrado preliminarmente
     output_file = f'{output_dir}/{gene}_{analysis_type}_final.tsv'
+    final_data.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
+
+    # Cargar el archivo final para realizar el filtrado adicional
+    try:
+        final_data = pd.read_csv(output_file, sep='\t', encoding='utf-8')
+    except FileNotFoundError:
+        print(f"Advertencia: No se encontró el archivo {output_file}. Saltando este gen.")
+        continue
+
+    # Filtrar variantes según la columna 70 (CLINSIG)
+    if final_data.shape[1] >= 70:  # Asegurarse de que la columna 70 exista
+        pathogenic_significance = ["pathogenic", "likely pathogenic", "pathogenic/likely pathogenic"]
+        final_data = final_data[
+            (final_data.iloc[:, 69] == '.') |  # Mantener las variantes no reportadas (con ".")
+            (final_data.iloc[:, 69].str.lower().isin(pathogenic_significance))  # Clasificaciones patogénicas
+        ]
+    else:
+        print(f"Advertencia: El archivo {output_file} no tiene una columna 70. Saltando el filtrado adicional para este gen.")
+        continue
+
+    # Sobrescribir el archivo final con los datos filtrados por CLINSIG
     final_data.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
 
