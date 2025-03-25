@@ -2,7 +2,7 @@ import sys
 import os
 import pandas as pd
 
-# Obtener argumentos de línea de comandos
+# Obtener el directorio de salida desde los argumentos de línea de comandos
 OUTPUT_DIRECTORY = sys.argv[1]
 
 # Leer la lista de genes y sus tipos de análisis
@@ -54,26 +54,44 @@ for gene, analysis_type in gene_data:
         print(f"Advertencia: El archivo {clinvar_file} no tiene columnas. Saltando este gen.")
         continue
 
-    # Agregar columna de presencia en ClinVar (YES/NO)
+    # Filtrar variantes patogénicas en ClinVar
+    pathogenic_significance = ["pathogenic", "likely pathogenic"]
+    clinvar_data_filtered = clinvar_data[
+        clinvar_data.iloc[:, 5].str.lower().isin(pathogenic_significance)  # Suponiendo que la columna 6 (índice 5) es "CLNSIG"
+    ]
+
+    # Agregar columna de presencia en ClinVar (YES/NO) para variantes patogénicas
     sacbe_data['ClinVar_Match'] = sacbe_data.iloc[:, 14].apply(
-        lambda variant: 'YES' if variant in clinvar_data.iloc[:, 0].values else 'NO'
+        lambda variant: 'YES' if variant in clinvar_data_filtered.iloc[:, 0].values else 'NO'
     )
 
-    # Filtrar datos según el tipo de análisis
+    # Combinar datos de Sacbe y ClinVar filtrado
+    combined_data = sacbe_data.merge(
+        clinvar_data_filtered,
+        how='left',  # Unión para incluir todas las filas de Sacbe y los datos de ClinVar coincidentes
+        left_on=sacbe_data.columns[14],  # Columna 15 de Sacbe (índice 14)
+        right_on=clinvar_data_filtered.columns[0]  # Columna 1 de ClinVar filtrado (índice 0)
+    )
+
+    # Filtrar datos según el tipo de análisis y las reglas establecidas
     if analysis_type == "LOF":
-        filtered_data = sacbe_data[
-            (sacbe_data['Annotation_Match'] == 'YES') | (sacbe_data['ClinVar_Match'] == 'YES')
+        # Para LOF, incluir variantes que cumplan con la anotación o sean patogénicas
+        final_data = combined_data[
+            (combined_data['Annotation_Match'] == 'YES') | (combined_data['ClinVar_Match'] == 'YES')
         ]
     else:  # GOF
-        filtered_data = sacbe_data[
-            ((sacbe_data['Annotation_Match'] == 'YES') & (sacbe_data['ClinVar_Match'] == 'YES')) |
-            (sacbe_data['ClinVar_Match'] == 'YES')
+        # Para GOF, incluir variantes que sean patogénicas o probablemente patogénicas en ClinVar,
+        # independientemente de la anotación, así como las que cumplen con la anotación y estén en ClinVar
+        final_data = combined_data[
+            (combined_data['ClinVar_Match'] == 'YES') |  # Variantes patogénicas o probablemente patogénicas
+            ((combined_data['Annotation_Match'] == 'YES') & (combined_data['ClinVar_Match'] == 'YES'))
         ]
 
     # Crear el directorio de salida si no existe
     output_dir = f'{OUTPUT_DIRECTORY}/{analysis_type}_files'
     os.makedirs(output_dir, exist_ok=True)
 
-    # Guardar el archivo filtrado
-    output_file = f'{output_dir}/{gene}_{analysis_type}_filtered.tsv'
-    filtered_data.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
+    # Guardar el archivo combinado y filtrado
+    output_file = f'{output_dir}/{gene}_{analysis_type}_final.tsv'
+    final_data.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
+
