@@ -55,7 +55,7 @@ for gene, analysis_type in gene_data:
         continue
 
     # Filtrar variantes patogénicas en ClinVar
-    pathogenic_significance = ["pathogenic", "likely pathogenic", "pathogenic/likely pathogenic"]
+    pathogenic_significance = ["pathogenic", "likely pathogenic", "pathogenic/likely_pathogenic"]
     clinvar_data_filtered = clinvar_data[
         clinvar_data.iloc[:, 5].str.lower().isin(pathogenic_significance)  # Suponiendo que la columna 6 (índice 5) es "CLINSIG"
     ]
@@ -104,7 +104,7 @@ for gene, analysis_type in gene_data:
 
     # Filtrar variantes según la columna 70 (CLINSIG)
     if final_data.shape[1] >= 70:  # Asegurarse de que la columna 70 exista
-        pathogenic_significance = ["pathogenic", "likely pathogenic", "pathogenic/likely pathogenic"]
+        pathogenic_significance = ["pathogenic", "likely pathogenic", "pathogenic/likely_pathogenic"]
         final_data = final_data[
             (final_data.iloc[:, 69] == '.') |  # Mantener las variantes no reportadas (con ".")
             (final_data.iloc[:, 69].str.lower().isin(pathogenic_significance))  # Clasificaciones patogénicas
@@ -115,4 +115,3 @@ for gene, analysis_type in gene_data:
 
     # Sobrescribir el archivo final con los datos filtrados por CLINSIG
     final_data.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
-
