@@ -19,7 +19,16 @@ The positions of the gene were taken from [UCSC Genome browser](https://genome.u
 
 Then run this command to generate the file needed to create the Sacbe annotation
 ```bash
-bash /mnt/Timina/cgonzaga/resources/MCPS/Clinvar_Jan2025/MCPS_pipeline/sacbe_annotation.sge Genes.csv
+# Concatenar todos los archivos *sacbe.csv en uno solo, conservando solo el encabezado del primero
+head -n 1 $(ls *sacbe.csv | head -n 1) > Marlon2_sacbe.csv
+tail -n +2 *sacbe.csv >> Marlon2_sacbe.csv
+# crear un archivo tsv en .txt para claudia
+sed 's/,/\t/g' Marlon2_sacbe.csv > Marlon2_sacbe.txt
+```
+
+##### concatenate archives into a single file which will be given to Claudia
+```bash
+
 ```
 #### Important note: In order to continue FIRST you need to give this archives to Claudia so she can run the sacbe script and with that file then you can continue
 
