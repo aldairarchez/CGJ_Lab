@@ -18,6 +18,7 @@ The positions of the gene were taken from [UCSC Genome browser](https://genome.u
 | CALM1,14,90397029,90408268 |
 
 Then run this command to generate the file needed to create the Sacbe annotation
+##### concatenate archives into a single file which will be given to Claudia
 ```bash
 # Concatenar todos los archivos *sacbe.csv en uno solo, conservando solo el encabezado del primero
 head -n 1 $(ls *sacbe.csv | head -n 1) > Marlon2_sacbe.csv
@@ -26,10 +27,7 @@ tail -n +2 *sacbe.csv >> Marlon2_sacbe.csv
 sed 's/,/\t/g' Marlon2_sacbe.csv > Marlon2_sacbe.txt
 ```
 
-##### concatenate archives into a single file which will be given to Claudia
-```bash
 
-```
 #### Important note: In order to continue FIRST you need to give this archives to Claudia so she can run the sacbe script and with that file then you can continue
 
 ### Annotation file provided by Claudia's script
