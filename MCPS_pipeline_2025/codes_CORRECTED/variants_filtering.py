@@ -55,7 +55,7 @@ for gene, analysis_type in gene_data:
         continue
 
     # Filtrar variantes patogénicas en ClinVar
-    pathogenic_significance = ["pathogenic", "likely pathogenic", "pathogenic/likely_pathogenic"]
+    pathogenic_significance = ["pathogenic", "likely_pathogenic", "pathogenic/likely_pathogenic", "conflicting_classifications_of_pathogenicity"]
     clinvar_data_filtered = clinvar_data[
         clinvar_data.iloc[:, 5].str.lower().isin(pathogenic_significance)  # Suponiendo que la columna 6 (índice 5) es "CLINSIG"
     ]
@@ -69,8 +69,8 @@ for gene, analysis_type in gene_data:
     combined_data = sacbe_data.merge(
         clinvar_data_filtered,
         how='left',  # Unión para incluir todas las filas de Sacbe y los datos de ClinVar coincidentes
-        left_on=sacbe_data.columns[14],  # Columna 15 de Sacbe (índice 14)
-        right_on=clinvar_data_filtered.columns[0]  # Columna 1 de ClinVar filtrado (índice 0)
+        left_on=sacbe_data.columns[14],  # Columna 15 de Sacbe (índice 14) => CPRA
+        right_on=clinvar_data_filtered.columns[0]  # Columna 1 de ClinVar filtrado (índice 0) => CPRA
     )
 
     # Filtrar datos según el tipo de análisis y las reglas establecidas
@@ -79,6 +79,16 @@ for gene, analysis_type in gene_data:
         final_data = combined_data[
             (combined_data['Annotation_Match'] == 'YES') | (combined_data['ClinVar_Match'] == 'YES')
         ]
+
+        # Filtrar variantes según la columna 70 (CLINSIG) solo para LOF
+        if final_data.shape[1] >= 70:  # Asegurarse de que la columna 70 exista
+            final_data = final_data[
+                (final_data.iloc[:, 69] == '.') |  # Mantener las variantes no reportadas (con ".")
+                (final_data.iloc[:, 69].str.lower().isin(pathogenic_significance))  # Clasificaciones patogénicas
+            ]
+        else:
+            print(f"Advertencia: El archivo {gene}_{analysis_type}_final.tsv no tiene una columna 70. Saltando el filtrado adicional para este gen.")
+            continue
     else:  # GOF
         # Para GOF, incluir variantes que sean patogénicas o probablemente patogénicas en ClinVar,
         # independientemente de la anotación, así como las que cumplen con la anotación y estén en ClinVar
@@ -91,27 +101,8 @@ for gene, analysis_type in gene_data:
     output_dir = f'{OUTPUT_DIRECTORY}/{analysis_type}_files'
     os.makedirs(output_dir, exist_ok=True)
 
-    # Guardar el archivo combinado y filtrado preliminarmente
+    # Guardar el archivo combinado y filtrado
     output_file = f'{output_dir}/{gene}_{analysis_type}_final.tsv'
     final_data.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
 
-    # Cargar el archivo final para realizar el filtrado adicional
-    try:
-        final_data = pd.read_csv(output_file, sep='\t', encoding='utf-8')
-    except FileNotFoundError:
-        print(f"Advertencia: No se encontró el archivo {output_file}. Saltando este gen.")
-        continue
 
-    # Filtrar variantes según la columna 70 (CLINSIG)
-    if final_data.shape[1] >= 70:  # Asegurarse de que la columna 70 exista
-        pathogenic_significance = ["pathogenic", "likely pathogenic", "pathogenic/likely_pathogenic"]
-        final_data = final_data[
-            (final_data.iloc[:, 69] == '.') |  # Mantener las variantes no reportadas (con ".")
-            (final_data.iloc[:, 69].str.lower().isin(pathogenic_significance))  # Clasificaciones patogénicas
-        ]
-    else:
-        print(f"Advertencia: El archivo {output_file} no tiene una columna 70. Saltando el filtrado adicional para este gen.")
-        continue
-
-    # Sobrescribir el archivo final con los datos filtrados por CLINSIG
-    final_data.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
