@@ -9,7 +9,7 @@
 # Step 1
 ## Create sacbe annotation file from MCPS data and run it with Claudias Script
 ### Files you need to create in the directory where you want to save the files:
-#### an archive called "Genes.csv" in the following format:
+#### an archive called "Genes.csv" in the following format: ** Do not forget to add the header to the csv file **
 The positions of the gene were taken from [UCSC Genome browser](https://genome.ucsc.edu/)
 + Example:
   
