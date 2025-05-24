@@ -57,3 +57,4 @@ APP GOF
 bash /mnt/Timina/cgonzaga/resources/MCPS/Clinvar_Jan2025/MCPS_pipeline/MCPS_pipeline.sh Genes_list.txt
 ```
 
+# Despues de correr el script de Cris dentro de DNA Nexus para obtener los portadores, ahora se deben unir los 3 archivos resultantes utilizando el siguiente script 
