@@ -57,4 +57,10 @@ APP GOF
 bash /mnt/Timina/cgonzaga/resources/MCPS/Clinvar_Jan2025/MCPS_pipeline/MCPS_pipeline.sh Genes_list.txt
 ```
 
-# Despues de correr el script de Cris dentro de DNA Nexus para obtener los portadores, ahora se deben unir los 3 archivos resultantes utilizando el siguiente script 
+# Despues de correr el script de Cris dentro de DNA Nexus para obtener los portadores, ahora se deben unir los 3 archivos resultantes utilizando el siguiente script
+
+[tabla_carriers.py](https://github.com/aldairarchez/CGJ_Lab/blob/main/MCPS_pipeline_2025/codes_CORRECTED/tabla_carriers.py)
+### Archivos input para correr el codigo:
+    #file .frq is a basic allele frequency report
+    #file .frqx is a genotype count report
+    #file .rlist is a rare genotype list file
